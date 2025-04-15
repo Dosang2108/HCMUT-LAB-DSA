@@ -11,19 +11,28 @@ void SLinkedList<T>::add(const T& e) {
 
 template<class T>
 void SLinkedList<T>::add(int index, const T& e) {
-    if (head == NULL)   {head = tail = new Node(e,NULL); count++; return;}
-    if (index == 0){
-        Node* tmp = new Node(e,head);
-        head = tmp;
-        count++;
+    if(index > this->count || index < 0){
         return;
     }
-    Node *cur = head;
-    for (int i=1;i<index;i++)   {cur = cur -> next;}
-    Node *tmp = new Node(e,cur->next);
-    cur->next = tmp;
-    if (cur == tail)    tail = tmp;
-    count++;
+    if(index == count && this-> count != 0){
+        add(e);
+        return;
+    }
+    Node* pNew = new Node (e, NULL);
+    if(this->count == 0){
+        this->head = this->tail = pNew;
+    }else if(index == 0) {
+        pNew->next = this->head;
+        this->head = pNew;
+    }else{
+        Node* current = this->head;
+        for(int i = 0; i < index -1; i++){
+            current = current->next;
+        }
+        pNew->next = current->next;
+        current-> next = pNew;
+    }
+    ++this->count;
 }
 
 template<class T>
